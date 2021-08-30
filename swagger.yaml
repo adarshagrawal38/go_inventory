@@ -1,0 +1,96 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Inventory Management
+  description: A mini project for practice
+  contact:
+    name: AAA
+    url: http://aaa.com
+paths:
+  /registration:
+    post:
+      summary: new user registration to inventory
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Users"
+      responses:
+        201:
+          description: Item saved successfully
+  /inventory:
+    get:
+      summary: fetches all inventory data
+      responses:
+        200:
+          description: Fetched all records
+          schema:
+            $ref: "#/definitions/Items"
+    post:
+      summary: saves an item to inventory
+      parameters: 
+        - name: itemName
+          in: query
+          type: string
+          required: true
+        - name: name
+          in: query
+          type: string
+          required: false
+        - name: price
+          in: query
+          type: number
+          required: true
+      responses:
+        201:
+          description: Item saved successfully
+  /{id}:
+    parameters:
+      - type: integer
+        format: int64
+        name: id
+        in: path
+        required: true
+    put:
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Items"
+      responses:
+        200:
+          description: Successfully updated the record
+          schema:
+            $ref: "#/definitions/Items"
+
+definitions:
+  Items:
+    type: object
+    properties:
+      itemId:
+        type: integer
+        example: 1
+      itemName:
+        type: string
+        example: Coffee
+      description:
+        type: string
+        example: Bru
+      price:
+        type: number
+        example: 125.5
+    Users:
+      type: object
+      properties:
+        userId:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Ram
+        email:
+          type: string
+          example: rk@gmail.com
+        password:
+          type: string
+          format: password
