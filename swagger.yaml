@@ -1,4 +1,4 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   version: 1.0.0
   title: Inventory Management
@@ -6,20 +6,86 @@ info:
   contact:
     name: AAA
     url: http://aaa.com
+tags:
+  - name: "user"
+    description: "Operations about user"
+  - name: "stock"
+    description: "operations on stock items"
+  - name: "Authorization"
+    description: "check user credentials"
 paths:
-  /registration:
+  /user:
     post:
+      tags:
+        - "user"
       summary: new user registration to inventory
       parameters:
-      - name: body
-        in: body
-        schema:
-          $ref: "#/definitions/Users"
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Users"
       responses:
         201:
           description: Item saved successfully
+    put:
+      tags:
+        - "user"
+      summary: user updated
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Users"
+      responses:
+        201:
+          description: updated succesfully
+
+  /user/{id}:
+    parameters:
+      - type: integer
+        format: int64
+        name: id
+        in: path
+        required: true
+    get:
+      tags:
+        - "user"
+      responses:
+        200:
+          description: get user details
+          schema:
+            $ref: "#/definitions/Users"
+    delete:
+      tags:
+        - "user"
+      responses:
+        200:
+          description: user deleted
+        404:
+          description: internal server error
+  /login:
+    post:
+      tags:
+        - "Authorization"
+      summary: login user
+      parameters:
+        - name: email
+          in: query
+          type: string
+          required: true
+        - name: password
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: login sucessful
+        401:
+          description: invalid credentials
   /inventory:
     get:
+      tags:
+        - "stock"
       summary: fetches all inventory data
       responses:
         200:
@@ -28,11 +94,21 @@ paths:
             $ref: "#/definitions/Items"
     post:
       summary: saves an item to inventory
-      parameters: 
-      - name: body
-        in: body
-        schema:
-          $ref: "#/definitions/Item"
+      tags:
+        - "stock"
+      parameters:
+        - name: itemName
+          in: query
+          type: string
+          required: true
+        - name: name
+          in: query
+          type: string
+          required: false
+        - name: price
+          in: query
+          type: number
+          required: true
       responses:
         201:
           description: Item saved successfully
@@ -44,17 +120,27 @@ paths:
         in: path
         required: true
     put:
+      tags:
+        - "stock"
       summary: update an item by item id
       parameters:
-      - name: body
-        in: body
-        schema:
-          $ref: "#/definitions/Item"
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Item"
       responses:
         200:
           description: Successfully updated the record
           schema:
             $ref: "#/definitions/Item"
+    delete:
+      tags:
+        - "stock"
+      responses:
+        200:
+          description: Item deleted
+        404:
+          description: Item not found
   /inventory/search/{itemName}:
     parameters:
       - type: string
@@ -62,6 +148,8 @@ paths:
         in: path
         required: true
     get:
+      tags:
+        - "stock"
       summary: get item by name
       responses:
         200:
@@ -94,7 +182,7 @@ definitions:
   Items:
     type: array
     items:
-      $ref: '#/definitions/Item'
+      $ref: "#/definitions/Item"
   Users:
     type: object
     properties:
@@ -110,4 +198,3 @@ definitions:
       password:
         type: string
         format: password
-
