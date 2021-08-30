@@ -7,9 +7,9 @@ info:
     name: AAA
     url: http://aaa.com
 tags:
-  - name: "user"
+  - name: "User"
     description: "Operations about user"
-  - name: "stock"
+  - name: "Stock"
     description: "operations on stock items"
   - name: "Authorization"
     description: "check user credentials"
@@ -17,7 +17,7 @@ paths:
   /user:
     post:
       tags:
-        - "user"
+        - "User"
       summary: new user registration to inventory
       parameters:
         - name: body
@@ -29,7 +29,7 @@ paths:
           description: Item saved successfully
     put:
       tags:
-        - "user"
+        - "User"
       summary: user updated
       parameters:
         - name: body
@@ -49,7 +49,7 @@ paths:
         required: true
     get:
       tags:
-        - "user"
+        - "User"
       responses:
         200:
           description: get user details
@@ -57,7 +57,7 @@ paths:
             $ref: "#/definitions/Users"
     delete:
       tags:
-        - "user"
+        - "User"
       responses:
         200:
           description: user deleted
@@ -85,7 +85,7 @@ paths:
   /inventory:
     get:
       tags:
-        - "stock"
+        - "Stock"
       summary: fetches all inventory data
       responses:
         200:
@@ -95,7 +95,7 @@ paths:
     post:
       summary: saves an item to inventory
       tags:
-        - "stock"
+        - "Stock"
       parameters:
         - name: itemName
           in: query
@@ -121,7 +121,7 @@ paths:
         required: true
     put:
       tags:
-        - "stock"
+        - "Stock"
       summary: update an item by item id
       parameters:
         - name: body
@@ -135,7 +135,7 @@ paths:
             $ref: "#/definitions/Item"
     delete:
       tags:
-        - "stock"
+        - "Stock"
       responses:
         200:
           description: Item deleted
@@ -149,7 +149,7 @@ paths:
         required: true
     get:
       tags:
-        - "stock"
+        - "Stock"
       summary: get item by name
       responses:
         200:
@@ -198,3 +198,4 @@ definitions:
       password:
         type: string
         format: password
+
