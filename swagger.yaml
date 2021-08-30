@@ -79,18 +79,18 @@ definitions:
       price:
         type: number
         example: 125.5
-    Users:
-      type: object
-      properties:
-        userId:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: Ram
-        email:
-          type: string
-          example: rk@gmail.com
-        password:
-          type: string
-          format: password
+  Users:
+    type: object
+    properties:
+      userId:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: Ram
+      email:
+        type: string
+        example: rk@gmail.com
+      password:
+        type: string
+        format: password
