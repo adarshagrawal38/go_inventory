@@ -19,14 +19,13 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/inventory/restapi/operations/authorization"
-	"github.com/inventory/restapi/operations/stock"
-	"github.com/inventory/restapi/operations/user"
+	"inventory-management/restapi/operations/authorization"
+	"inventory-management/restapi/operations/stock"
+	"inventory-management/restapi/operations/user"
 )
 
 // NewInventoryAPI creates a new Inventory instance
 func NewInventoryAPI(spec *loads.Document) *InventoryAPI {
-	
 	return &InventoryAPI{
 		handlers:            make(map[string]map[string]http.Handler),
 		formats:             strfmt.Default,
