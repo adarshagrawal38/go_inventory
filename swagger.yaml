@@ -198,4 +198,3 @@ definitions:
       password:
         type: string
         format: password
-
