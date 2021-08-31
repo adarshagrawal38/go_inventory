@@ -16,7 +16,7 @@ import (
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 
-	"inventory-management/models"
+	"github.com/inventory/models"
 )
 
 // NewPutInventoryItemIDParams creates a new PutInventoryItemIDParams object

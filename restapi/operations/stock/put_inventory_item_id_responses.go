@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"inventory-management/models"
+	"github.com/inventory/models"
 )
 
 // PutInventoryItemIDOKCode is the HTTP code returned for type PutInventoryItemIDOK

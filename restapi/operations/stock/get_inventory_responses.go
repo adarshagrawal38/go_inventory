@@ -9,8 +9,7 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
-
-	"inventory-management/models"
+	"github.com/inventory/models"
 )
 
 // GetInventoryOKCode is the HTTP code returned for type GetInventoryOK

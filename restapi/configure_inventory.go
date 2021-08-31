@@ -10,10 +10,10 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	"inventory-management/restapi/operations"
-	"inventory-management/restapi/operations/authorization"
-	"inventory-management/restapi/operations/stock"
-	"inventory-management/restapi/operations/user"
+	"github.com/inventory/restapi/operations"
+	"github.com/inventory/restapi/operations/authorization"
+	"github.com/inventory/restapi/operations/stock"
+	"github.com/inventory/restapi/operations/user"
 )
 
 //go:generate swagger generate server --target ../../inventory-management --name Inventory --spec ../swagger.yaml --principal interface{}

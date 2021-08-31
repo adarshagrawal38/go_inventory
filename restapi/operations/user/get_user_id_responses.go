@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"inventory-management/models"
+	"github.com/inventory/models"
 )
 
 // GetUserIDOKCode is the HTTP code returned for type GetUserIDOK

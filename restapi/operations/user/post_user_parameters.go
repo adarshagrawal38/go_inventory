@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/validate"
 
-	"inventory-management/models"
+	"github.com/inventory/models"
 )
 
 // NewPostUserParams creates a new PostUserParams object
