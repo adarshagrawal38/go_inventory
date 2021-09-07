@@ -14,6 +14,8 @@ import (
 	"inventory-management/restapi/operations/authorization"
 	"inventory-management/restapi/operations/stock"
 	"inventory-management/restapi/operations/user"
+	"inventory-management/restapi/pkg/controllers"
+	"inventory-management/restapi/pkg/database"
 )
 
 //go:generate swagger generate server --target ../../inventory-management --name Inventory --spec ../swagger.yaml --principal interface{}
@@ -39,6 +41,17 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
+	
+	database.Connect()
+	
+	api.UserPostUserHandler = user.PostUserHandlerFunc(func(params user.PostUserParams) middleware.Responder {
+		controllers.CreateUser(params)
+		// return middleware.ResponderFunc(func(rw http.ResponseWriter, p runtime.Producer) {
+		// 	rw.Write([]byte("user created"))
+		// })
+		return user.NewPostUserCreated()
+		//return middleware.NotImplemented("Data saved")
+	})
 
 	if api.StockDeleteInventoryItemIDHandler == nil {
 		api.StockDeleteInventoryItemIDHandler = stock.DeleteInventoryItemIDHandlerFunc(func(params stock.DeleteInventoryItemIDParams) middleware.Responder {
@@ -73,11 +86,6 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	if api.AuthorizationPostLoginHandler == nil {
 		api.AuthorizationPostLoginHandler = authorization.PostLoginHandlerFunc(func(params authorization.PostLoginParams) middleware.Responder {
 			return middleware.NotImplemented("operation authorization.PostLogin has not yet been implemented")
-		})
-	}
-	if api.UserPostUserHandler == nil {
-		api.UserPostUserHandler = user.PostUserHandlerFunc(func(params user.PostUserParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.PostUser has not yet been implemented")
 		})
 	}
 	if api.StockPutInventoryItemIDHandler == nil {

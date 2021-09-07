@@ -10,9 +10,10 @@ require (
 	github.com/go-openapi/strfmt v0.20.2
 	github.com/go-openapi/swag v0.19.15
 	github.com/go-openapi/validate v0.20.2
-	github.com/gorilla/mux v1.8.0
+	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/jessevdk/go-flags v1.5.0
 	golang.org/x/net v0.0.0-20210825183410-e898025ed96a
+	gorm.io/gorm v1.21.14
 )
 
 require (
@@ -32,4 +33,6 @@ require (
 	golang.org/x/sys v0.0.0-20210423082822-04245dca01da // indirect
 	golang.org/x/text v0.3.6 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gorm.io/driver/mysql v1.1.2
+	
 )

@@ -26,7 +26,9 @@ paths:
             $ref: "#/definitions/Users"
       responses:
         201:
-          description: Item saved successfully
+          description: User created
+          schema:
+            $ref: "#/definitions/Users"
     put:
       tags:
         - "User"
@@ -38,7 +40,9 @@ paths:
             $ref: "#/definitions/Users"
       responses:
         201:
-          description: updated succesfully
+          description: User Updated
+          schema:
+            $ref: "#/definitions/Users"
 
   /user/{id}:
     parameters:
@@ -112,6 +116,8 @@ paths:
       responses:
         201:
           description: Item saved successfully
+          schema:
+            $ref: "#/definitions/Item"
   /inventory/{itemId}:
     parameters:
       - type: integer
@@ -155,13 +161,13 @@ paths:
         200:
           description: Item fetched
           schema:
-            $ref: "#/definitions/Item"
+            $ref: "#/definitions/Items"
 
 definitions:
   Item:
     type: object
     properties:
-      itemId:
+      id:
         type: integer
         example: 1
       itemName:
@@ -186,7 +192,7 @@ definitions:
   Users:
     type: object
     properties:
-      userId:
+      id:
         type: integer
         example: 1
       name:
