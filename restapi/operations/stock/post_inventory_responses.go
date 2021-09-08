@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	"inventory-management/models"
 )
 
 // PostInventoryCreatedCode is the HTTP code returned for type PostInventoryCreated
@@ -19,6 +21,11 @@ const PostInventoryCreatedCode int = 201
 swagger:response postInventoryCreated
 */
 type PostInventoryCreated struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Item `json:"body,omitempty"`
 }
 
 // NewPostInventoryCreated creates PostInventoryCreated with default headers values
@@ -27,10 +34,25 @@ func NewPostInventoryCreated() *PostInventoryCreated {
 	return &PostInventoryCreated{}
 }
 
+// WithPayload adds the payload to the post inventory created response
+func (o *PostInventoryCreated) WithPayload(payload *models.Item) *PostInventoryCreated {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the post inventory created response
+func (o *PostInventoryCreated) SetPayload(payload *models.Item) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *PostInventoryCreated) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(201)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

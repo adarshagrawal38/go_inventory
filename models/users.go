@@ -23,6 +23,10 @@ type Users struct {
 	// Example: rk@gmail.com
 	Email string `json:"email,omitempty"`
 
+	// id
+	// Example: 1
+	ID int64 `json:"id,omitempty"`
+
 	// name
 	// Example: Ram
 	Name string `json:"name,omitempty"`
@@ -30,10 +34,6 @@ type Users struct {
 	// password
 	// Format: password
 	Password strfmt.Password `json:"password,omitempty"`
-
-	// user Id
-	// Example: 1
-	UserID int64 `json:"userId,omitempty"`
 }
 
 // Validate validates this users

@@ -25,9 +25,9 @@ type Item struct {
 	// Example: Bru
 	Description string `json:"description,omitempty"`
 
-	// item Id
+	// id
 	// Example: 1
-	ItemID int64 `json:"itemId,omitempty"`
+	ID int64 `json:"id,omitempty"`
 
 	// item name
 	// Example: Coffee

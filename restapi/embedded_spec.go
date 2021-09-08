@@ -70,7 +70,10 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "Item saved successfully"
+            "description": "Item saved successfully",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
           }
         }
       }
@@ -85,7 +88,7 @@ func init() {
           "200": {
             "description": "Item fetched",
             "schema": {
-              "$ref": "#/definitions/Item"
+              "$ref": "#/definitions/Items"
             }
           }
         }
@@ -193,7 +196,10 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "updated succesfully"
+            "description": "User Updated",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           }
         }
       },
@@ -213,7 +219,10 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "Item saved successfully"
+            "description": "User created",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           }
         }
       }
@@ -268,7 +277,7 @@ func init() {
           "type": "string",
           "example": "Bru"
         },
-        "itemId": {
+        "id": {
           "type": "integer",
           "example": 1
         },
@@ -299,6 +308,10 @@ func init() {
           "type": "string",
           "example": "rk@gmail.com"
         },
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
         "name": {
           "type": "string",
           "example": "Ram"
@@ -306,10 +319,6 @@ func init() {
         "password": {
           "type": "string",
           "format": "password"
-        },
-        "userId": {
-          "type": "integer",
-          "example": 1
         }
       }
     }
@@ -382,7 +391,10 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "Item saved successfully"
+            "description": "Item saved successfully",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
           }
         }
       }
@@ -397,7 +409,7 @@ func init() {
           "200": {
             "description": "Item fetched",
             "schema": {
-              "$ref": "#/definitions/Item"
+              "$ref": "#/definitions/Items"
             }
           }
         }
@@ -505,7 +517,10 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "updated succesfully"
+            "description": "User Updated",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           }
         }
       },
@@ -525,7 +540,10 @@ func init() {
         ],
         "responses": {
           "201": {
-            "description": "Item saved successfully"
+            "description": "User created",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           }
         }
       }
@@ -580,7 +598,7 @@ func init() {
           "type": "string",
           "example": "Bru"
         },
-        "itemId": {
+        "id": {
           "type": "integer",
           "example": 1
         },
@@ -611,6 +629,10 @@ func init() {
           "type": "string",
           "example": "rk@gmail.com"
         },
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
         "name": {
           "type": "string",
           "example": "Ram"
@@ -618,10 +640,6 @@ func init() {
         "password": {
           "type": "string",
           "format": "password"
-        },
-        "userId": {
-          "type": "integer",
-          "example": 1
         }
       }
     }

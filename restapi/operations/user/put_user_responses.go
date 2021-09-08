@@ -9,16 +9,23 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	"inventory-management/models"
 )
 
 // PutUserCreatedCode is the HTTP code returned for type PutUserCreated
 const PutUserCreatedCode int = 201
 
-/*PutUserCreated updated succesfully
+/*PutUserCreated User Updated
 
 swagger:response putUserCreated
 */
 type PutUserCreated struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Users `json:"body,omitempty"`
 }
 
 // NewPutUserCreated creates PutUserCreated with default headers values
@@ -27,10 +34,25 @@ func NewPutUserCreated() *PutUserCreated {
 	return &PutUserCreated{}
 }
 
+// WithPayload adds the payload to the put user created response
+func (o *PutUserCreated) WithPayload(payload *models.Users) *PutUserCreated {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the put user created response
+func (o *PutUserCreated) SetPayload(payload *models.Users) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *PutUserCreated) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(201)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

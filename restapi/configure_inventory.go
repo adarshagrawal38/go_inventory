@@ -45,11 +45,12 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	database.Connect()
 	
 	api.UserPostUserHandler = user.PostUserHandlerFunc(func(params user.PostUserParams) middleware.Responder {
-		controllers.CreateUser(params)
+		newUser := controllers.CreateUser(params)
 		// return middleware.ResponderFunc(func(rw http.ResponseWriter, p runtime.Producer) {
 		// 	rw.Write([]byte("user created"))
 		// })
-		return user.NewPostUserCreated()
+		
+		return user.NewPostUserCreated().WithPayload(newUser)
 		//return middleware.NotImplemented("Data saved")
 	})
 

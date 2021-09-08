@@ -25,7 +25,7 @@ type GetInventorySearchItemNameOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Item `json:"body,omitempty"`
+	Payload models.Items `json:"body,omitempty"`
 }
 
 // NewGetInventorySearchItemNameOK creates GetInventorySearchItemNameOK with default headers values
@@ -35,13 +35,13 @@ func NewGetInventorySearchItemNameOK() *GetInventorySearchItemNameOK {
 }
 
 // WithPayload adds the payload to the get inventory search item name o k response
-func (o *GetInventorySearchItemNameOK) WithPayload(payload *models.Item) *GetInventorySearchItemNameOK {
+func (o *GetInventorySearchItemNameOK) WithPayload(payload models.Items) *GetInventorySearchItemNameOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get inventory search item name o k response
-func (o *GetInventorySearchItemNameOK) SetPayload(payload *models.Item) {
+func (o *GetInventorySearchItemNameOK) SetPayload(payload models.Items) {
 	o.Payload = payload
 }
 
@@ -49,10 +49,13 @@ func (o *GetInventorySearchItemNameOK) SetPayload(payload *models.Item) {
 func (o *GetInventorySearchItemNameOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
-	if o.Payload != nil {
-		payload := o.Payload
-		if err := producer.Produce(rw, payload); err != nil {
-			panic(err) // let the recovery middleware deal with this
-		}
+	payload := o.Payload
+	if payload == nil {
+		// return empty array
+		payload = models.Items{}
+	}
+
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
 	}
 }

@@ -9,16 +9,23 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	"inventory-management/models"
 )
 
 // PostUserCreatedCode is the HTTP code returned for type PostUserCreated
 const PostUserCreatedCode int = 201
 
-/*PostUserCreated Item saved successfully
+/*PostUserCreated User created
 
 swagger:response postUserCreated
 */
 type PostUserCreated struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Users `json:"body,omitempty"`
 }
 
 // NewPostUserCreated creates PostUserCreated with default headers values
@@ -27,10 +34,25 @@ func NewPostUserCreated() *PostUserCreated {
 	return &PostUserCreated{}
 }
 
+// WithPayload adds the payload to the post user created response
+func (o *PostUserCreated) WithPayload(payload *models.Users) *PostUserCreated {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the post user created response
+func (o *PostUserCreated) SetPayload(payload *models.Users) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *PostUserCreated) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(201)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

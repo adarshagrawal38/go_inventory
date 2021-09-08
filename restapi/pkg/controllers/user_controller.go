@@ -8,9 +8,10 @@ import (
 )
 
 
-func CreateUser(params user.PostUserParams) {
+func CreateUser(params user.PostUserParams) *models.Users {
 
 	var users *models.Users = params.Body
 	database.DB.Create(users)
 	fmt.Println(users)
+	return users
 }
