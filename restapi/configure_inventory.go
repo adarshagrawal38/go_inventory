@@ -46,59 +46,57 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	
 	api.UserPostUserHandler = user.PostUserHandlerFunc(func(params user.PostUserParams) middleware.Responder {
 		newUser := controllers.CreateUser(params)
-		// return middleware.ResponderFunc(func(rw http.ResponseWriter, p runtime.Producer) {
-		// 	rw.Write([]byte("user created"))
-		// })
 		
 		return user.NewPostUserCreated().WithPayload(newUser)
-		//return middleware.NotImplemented("Data saved")
+	})
+	api.UserDeleteUserIDHandler = user.DeleteUserIDHandlerFunc(func(params user.DeleteUserIDParams) middleware.Responder {
+		err := controllers.DeleteUser(params)
+		if err != nil {
+			return user.NewDeleteUserIDNotFound()
+		}else {
+			return user.NewDeleteUserIDOK()
+		}
 	})
 
-	if api.StockDeleteInventoryItemIDHandler == nil {
-		api.StockDeleteInventoryItemIDHandler = stock.DeleteInventoryItemIDHandlerFunc(func(params stock.DeleteInventoryItemIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation stock.DeleteInventoryItemID has not yet been implemented")
-		})
-	}
-	if api.UserDeleteUserIDHandler == nil {
-		api.UserDeleteUserIDHandler = user.DeleteUserIDHandlerFunc(func(params user.DeleteUserIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.DeleteUserID has not yet been implemented")
-		})
-	}
-	if api.StockGetInventoryHandler == nil {
-		api.StockGetInventoryHandler = stock.GetInventoryHandlerFunc(func(params stock.GetInventoryParams) middleware.Responder {
-			return middleware.NotImplemented("operation stock.GetInventory has not yet been implemented")
-		})
-	}
-	if api.StockGetInventorySearchItemNameHandler == nil {
-		api.StockGetInventorySearchItemNameHandler = stock.GetInventorySearchItemNameHandlerFunc(func(params stock.GetInventorySearchItemNameParams) middleware.Responder {
-			return middleware.NotImplemented("operation stock.GetInventorySearchItemName has not yet been implemented")
-		})
-	}
-	if api.UserGetUserIDHandler == nil {
-		api.UserGetUserIDHandler = user.GetUserIDHandlerFunc(func(params user.GetUserIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.GetUserID has not yet been implemented")
-		})
-	}
-	if api.StockPostInventoryHandler == nil {
-		api.StockPostInventoryHandler = stock.PostInventoryHandlerFunc(func(params stock.PostInventoryParams) middleware.Responder {
-			return middleware.NotImplemented("operation stock.PostInventory has not yet been implemented")
-		})
-	}
-	if api.AuthorizationPostLoginHandler == nil {
-		api.AuthorizationPostLoginHandler = authorization.PostLoginHandlerFunc(func(params authorization.PostLoginParams) middleware.Responder {
-			return middleware.NotImplemented("operation authorization.PostLogin has not yet been implemented")
-		})
-	}
-	if api.StockPutInventoryItemIDHandler == nil {
-		api.StockPutInventoryItemIDHandler = stock.PutInventoryItemIDHandlerFunc(func(params stock.PutInventoryItemIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation stock.PutInventoryItemID has not yet been implemented")
-		})
-	}
-	if api.UserPutUserHandler == nil {
-		api.UserPutUserHandler = user.PutUserHandlerFunc(func(params user.PutUserParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.PutUser has not yet been implemented")
-		})
-	}
+	api.UserGetUserIDHandler = user.GetUserIDHandlerFunc(func(params user.GetUserIDParams) middleware.Responder {
+		userData := controllers.FindUserById(params)
+		return user.NewGetUserIDOK().WithPayload(&userData)
+	})
+	api.UserPutUserHandler = user.PutUserHandlerFunc(func(params user.PutUserParams) middleware.Responder {
+		updatedUser := controllers.UpdateUser(params)
+		return user.NewPutUserCreated().WithPayload(updatedUser)
+	})
+
+	// STOCK
+	api.StockPostInventoryHandler = stock.PostInventoryHandlerFunc(func(params stock.PostInventoryParams) middleware.Responder {
+		postItem := controllers.CreateItem(params)
+		return stock.NewPostInventoryCreated().WithPayload(&postItem)
+	})
+
+	api.StockGetInventoryHandler = stock.GetInventoryHandlerFunc(func(params stock.GetInventoryParams) middleware.Responder {
+		return middleware.NotImplemented("operation stock.GetInventory has not yet been implemented")
+	})
+
+	api.StockPutInventoryItemIDHandler = stock.PutInventoryItemIDHandlerFunc(func(params stock.PutInventoryItemIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation stock.PutInventoryItemID has not yet been implemented")
+	})
+
+	api.StockDeleteInventoryItemIDHandler = stock.DeleteInventoryItemIDHandlerFunc(func(params stock.DeleteInventoryItemIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation stock.DeleteInventoryItemID has not yet been implemented")
+	})
+
+	api.StockGetInventorySearchItemNameHandler = stock.GetInventorySearchItemNameHandlerFunc(func(params stock.GetInventorySearchItemNameParams) middleware.Responder {
+		return middleware.NotImplemented("operation stock.GetInventorySearchItemName has not yet been implemented")
+	})
+
+	//Auth
+	
+	api.AuthorizationPostLoginHandler = authorization.PostLoginHandlerFunc(func(params authorization.PostLoginParams) middleware.Responder {
+		//Login not implemented
+		controllers.LogInUser(params)
+		return middleware.NotImplemented("operation authorization.PostLogin has not yet been implemented")
+	})
+	
 
 	api.PreServerShutdown = func() {}
 
