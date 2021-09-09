@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"inventory-management/models"
 	"inventory-management/restapi/operations/stock"
 	"inventory-management/restapi/pkg/database"
@@ -34,4 +35,12 @@ func DeleteAnItem(params stock.DeleteInventoryItemIDParams) error {
 	err := database.DB.Delete(&item)
 
 	return err.Error
+}
+
+func SearchItem(params stock.GetInventorySearchItemNameParams)  (*models.Items, error) {
+	var items models.Items
+	err := database.DB.Where("item_name LIKE ?", "%"+params.ItemName+"%").Find(&items)
+	fmt.Println(items)
+	return &items, err.Error
+
 }

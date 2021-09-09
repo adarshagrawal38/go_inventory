@@ -34,7 +34,7 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	// Example:
 	// api.Logger = log.Printf
 
-	api.UseSwaggerUI()
+	//sapi.UseSwaggerUI()
 	// To continue using redoc as your UI, uncomment the following line
 	// api.UseRedoc()
 
@@ -96,7 +96,13 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	})
 
 	api.StockGetInventorySearchItemNameHandler = stock.GetInventorySearchItemNameHandlerFunc(func(params stock.GetInventorySearchItemNameParams) middleware.Responder {
-		return middleware.NotImplemented("operation stock.GetInventorySearchItemName has not yet been implemented")
+		
+		data, err := controllers.SearchItem(params)
+		if err != nil {
+			return 	middleware.NotImplemented(err.Error())
+		}
+
+		return stock.NewGetInventorySearchItemNameOK().WithPayload(*data)
 	})
 
 	//Auth
