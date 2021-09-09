@@ -15,8 +15,7 @@ import (
 )
 
 // NewDeleteUserIDParams creates a new DeleteUserIDParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewDeleteUserIDParams() DeleteUserIDParams {
 
 	return DeleteUserIDParams{}
@@ -51,6 +50,7 @@ func (o *DeleteUserIDParams) BindRequest(r *http.Request, route *middleware.Matc
 	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
 		res = append(res, err)
 	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}

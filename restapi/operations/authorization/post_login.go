@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // PostLoginHandlerFunc turns a function with the right signature into a post login handler
@@ -29,7 +31,7 @@ func NewPostLogin(ctx *middleware.Context, handler PostLoginHandler) *PostLogin 
 	return &PostLogin{Context: ctx, Handler: handler}
 }
 
-/* PostLogin swagger:route POST /login Authorization postLogin
+/*PostLogin swagger:route POST /login Authorization postLogin
 
 login user
 
@@ -42,15 +44,87 @@ type PostLogin struct {
 func (o *PostLogin) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewPostLoginParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
+}
+
+// PostLoginOKBody post login o k body
+//
+// swagger:model PostLoginOKBody
+type PostLoginOKBody struct {
+
+	// jwt
+	Jwt string `json:"jwt,omitempty"`
+
+	// message
+	Message string `json:"message,omitempty"`
+}
+
+// Validate validates this post login o k body
+func (o *PostLoginOKBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (o *PostLoginOKBody) MarshalBinary() ([]byte, error) {
+	if o == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(o)
+}
+
+// UnmarshalBinary interface implementation
+func (o *PostLoginOKBody) UnmarshalBinary(b []byte) error {
+	var res PostLoginOKBody
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*o = res
+	return nil
+}
+
+// PostLoginUnauthorizedBody post login unauthorized body
+//
+// swagger:model PostLoginUnauthorizedBody
+type PostLoginUnauthorizedBody struct {
+
+	// jwt
+	Jwt string `json:"jwt,omitempty"`
+
+	// message
+	Message string `json:"message,omitempty"`
+}
+
+// Validate validates this post login unauthorized body
+func (o *PostLoginUnauthorizedBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (o *PostLoginUnauthorizedBody) MarshalBinary() ([]byte, error) {
+	if o == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(o)
+}
+
+// UnmarshalBinary interface implementation
+func (o *PostLoginUnauthorizedBody) UnmarshalBinary(b []byte) error {
+	var res PostLoginUnauthorizedBody
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*o = res
+	return nil
 }

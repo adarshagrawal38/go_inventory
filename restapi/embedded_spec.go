@@ -148,24 +148,43 @@ func init() {
         "summary": "login user",
         "parameters": [
           {
-            "type": "string",
-            "name": "email",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "string",
-            "name": "password",
-            "in": "query",
-            "required": true
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "login sucessful"
+            "description": "login sucessful",
+            "schema": {
+              "properties": {
+                "jwt": {
+                  "type": "string",
+                  "example": "ffffaqefr"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login succesful"
+                }
+              }
+            }
           },
           "401": {
-            "description": "invalid credentials"
+            "description": "invalid credentials",
+            "schema": {
+              "properties": {
+                "jwt": {
+                  "type": "string",
+                  "example": "-"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login failure"
+                }
+              }
+            }
           }
         }
       }
@@ -290,6 +309,19 @@ func init() {
       "type": "array",
       "items": {
         "$ref": "#/definitions/Item"
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "rk@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
       }
     },
     "Users": {
@@ -460,24 +492,43 @@ func init() {
         "summary": "login user",
         "parameters": [
           {
-            "type": "string",
-            "name": "email",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "string",
-            "name": "password",
-            "in": "query",
-            "required": true
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "login sucessful"
+            "description": "login sucessful",
+            "schema": {
+              "properties": {
+                "jwt": {
+                  "type": "string",
+                  "example": "ffffaqefr"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login succesful"
+                }
+              }
+            }
           },
           "401": {
-            "description": "invalid credentials"
+            "description": "invalid credentials",
+            "schema": {
+              "properties": {
+                "jwt": {
+                  "type": "string",
+                  "example": "-"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login failure"
+                }
+              }
+            }
           }
         }
       }
@@ -602,6 +653,19 @@ func init() {
       "type": "array",
       "items": {
         "$ref": "#/definitions/Item"
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "rk@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
       }
     },
     "Users": {

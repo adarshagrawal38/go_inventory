@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -18,37 +16,26 @@ import (
 type Item struct {
 
 	// m r p
-	// Example: 130
 	MRP float64 `json:"MRP,omitempty"`
 
 	// description
-	// Example: Bru
 	Description string `json:"description,omitempty"`
 
 	// id
-	// Example: 1
 	ID int64 `json:"id,omitempty"`
 
 	// item name
-	// Example: Coffee
 	ItemName string `json:"itemName,omitempty"`
 
 	// quantity
-	// Example: 6
 	Quantity int64 `json:"quantity,omitempty"`
 
 	// selling price
-	// Example: 125.5
 	SellingPrice float64 `json:"sellingPrice,omitempty"`
 }
 
 // Validate validates this item
 func (m *Item) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this item based on context it is used
-func (m *Item) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

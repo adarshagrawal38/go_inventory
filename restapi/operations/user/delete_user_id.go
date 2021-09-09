@@ -29,7 +29,7 @@ func NewDeleteUserID(ctx *middleware.Context, handler DeleteUserIDHandler) *Dele
 	return &DeleteUserID{Context: ctx, Handler: handler}
 }
 
-/* DeleteUserID swagger:route DELETE /user/{id} User deleteUserId
+/*DeleteUserID swagger:route DELETE /user/{id} User deleteUserId
 
 DeleteUserID delete user ID API
 
@@ -42,15 +42,17 @@ type DeleteUserID struct {
 func (o *DeleteUserID) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewDeleteUserIDParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

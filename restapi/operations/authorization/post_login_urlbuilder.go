@@ -13,12 +13,7 @@ import (
 
 // PostLoginURL generates an URL for the post login operation
 type PostLoginURL struct {
-	Email    string
-	Password string
-
 	_basePath string
-	// avoid unkeyed usage
-	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -44,20 +39,6 @@ func (o *PostLoginURL) Build() (*url.URL, error) {
 
 	_basePath := o._basePath
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
-
-	qs := make(url.Values)
-
-	emailQ := o.Email
-	if emailQ != "" {
-		qs.Set("email", emailQ)
-	}
-
-	passwordQ := o.Password
-	if passwordQ != "" {
-		qs.Set("password", passwordQ)
-	}
-
-	_result.RawQuery = qs.Encode()
 
 	return &_result, nil
 }

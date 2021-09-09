@@ -11,13 +11,12 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/validate"
+
+	"inventory-management/models"
 )
 
 // NewPostLoginParams creates a new PostLoginParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewPostLoginParams() PostLoginParams {
 
 	return PostLoginParams{}
@@ -33,15 +32,9 @@ type PostLoginParams struct {
 	HTTPRequest *http.Request `json:"-"`
 
 	/*
-	  Required: true
-	  In: query
+	  In: body
 	*/
-	Email string
-	/*
-	  Required: true
-	  In: query
-	*/
-	Password string
+	Body *models.Login
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -53,61 +46,24 @@ func (o *PostLoginParams) BindRequest(r *http.Request, route *middleware.Matched
 
 	o.HTTPRequest = r
 
-	qs := runtime.Values(r.URL.Query())
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body models.Login
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			res = append(res, errors.NewParseError("body", "body", "", err))
+		} else {
+			// validate body object
+			if err := body.Validate(route.Formats); err != nil {
+				res = append(res, err)
+			}
 
-	qEmail, qhkEmail, _ := qs.GetOK("email")
-	if err := o.bindEmail(qEmail, qhkEmail, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	qPassword, qhkPassword, _ := qs.GetOK("password")
-	if err := o.bindPassword(qPassword, qhkPassword, route.Formats); err != nil {
-		res = append(res, err)
+			if len(res) == 0 {
+				o.Body = &body
+			}
+		}
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindEmail binds and validates parameter Email from query.
-func (o *PostLoginParams) bindEmail(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	if !hasKey {
-		return errors.Required("email", "query", rawData)
-	}
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// AllowEmptyValue: false
-
-	if err := validate.RequiredString("email", "query", raw); err != nil {
-		return err
-	}
-	o.Email = raw
-
-	return nil
-}
-
-// bindPassword binds and validates parameter Password from query.
-func (o *PostLoginParams) bindPassword(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	if !hasKey {
-		return errors.Required("password", "query", rawData)
-	}
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: true
-	// AllowEmptyValue: false
-
-	if err := validate.RequiredString("password", "query", raw); err != nil {
-		return err
-	}
-	o.Password = raw
-
 	return nil
 }

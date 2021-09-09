@@ -29,7 +29,7 @@ func NewPostUser(ctx *middleware.Context, handler PostUserHandler) *PostUser {
 	return &PostUser{Context: ctx, Handler: handler}
 }
 
-/* PostUser swagger:route POST /user User postUser
+/*PostUser swagger:route POST /user User postUser
 
 new user registration to inventory
 
@@ -42,15 +42,17 @@ type PostUser struct {
 func (o *PostUser) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewPostUserParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

@@ -14,8 +14,7 @@ import (
 )
 
 // NewGetInventorySearchItemNameParams creates a new GetInventorySearchItemNameParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewGetInventorySearchItemNameParams() GetInventorySearchItemNameParams {
 
 	return GetInventorySearchItemNameParams{}
@@ -50,6 +49,7 @@ func (o *GetInventorySearchItemNameParams) BindRequest(r *http.Request, route *m
 	if err := o.bindItemName(rItemName, rhkItemName, route.Formats); err != nil {
 		res = append(res, err)
 	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -65,6 +65,7 @@ func (o *GetInventorySearchItemNameParams) bindItemName(rawData []string, hasKey
 
 	// Required: true
 	// Parameter is provided by construction from the route
+
 	o.ItemName = raw
 
 	return nil

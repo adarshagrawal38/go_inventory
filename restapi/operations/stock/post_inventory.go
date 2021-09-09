@@ -29,7 +29,7 @@ func NewPostInventory(ctx *middleware.Context, handler PostInventoryHandler) *Po
 	return &PostInventory{Context: ctx, Handler: handler}
 }
 
-/* PostInventory swagger:route POST /inventory Stock postInventory
+/*PostInventory swagger:route POST /inventory Stock postInventory
 
 saves an item to inventory
 
@@ -42,15 +42,17 @@ type PostInventory struct {
 func (o *PostInventory) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewPostInventoryParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

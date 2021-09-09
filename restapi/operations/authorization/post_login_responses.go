@@ -19,6 +19,11 @@ const PostLoginOKCode int = 200
 swagger:response postLoginOK
 */
 type PostLoginOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *PostLoginOKBody `json:"body,omitempty"`
 }
 
 // NewPostLoginOK creates PostLoginOK with default headers values
@@ -27,12 +32,27 @@ func NewPostLoginOK() *PostLoginOK {
 	return &PostLoginOK{}
 }
 
+// WithPayload adds the payload to the post login o k response
+func (o *PostLoginOK) WithPayload(payload *PostLoginOKBody) *PostLoginOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the post login o k response
+func (o *PostLoginOK) SetPayload(payload *PostLoginOKBody) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *PostLoginOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }
 
 // PostLoginUnauthorizedCode is the HTTP code returned for type PostLoginUnauthorized
@@ -43,6 +63,11 @@ const PostLoginUnauthorizedCode int = 401
 swagger:response postLoginUnauthorized
 */
 type PostLoginUnauthorized struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *PostLoginUnauthorizedBody `json:"body,omitempty"`
 }
 
 // NewPostLoginUnauthorized creates PostLoginUnauthorized with default headers values
@@ -51,10 +76,25 @@ func NewPostLoginUnauthorized() *PostLoginUnauthorized {
 	return &PostLoginUnauthorized{}
 }
 
+// WithPayload adds the payload to the post login unauthorized response
+func (o *PostLoginUnauthorized) WithPayload(payload *PostLoginUnauthorizedBody) *PostLoginUnauthorized {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the post login unauthorized response
+func (o *PostLoginUnauthorized) SetPayload(payload *PostLoginUnauthorizedBody) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *PostLoginUnauthorized) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(401)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

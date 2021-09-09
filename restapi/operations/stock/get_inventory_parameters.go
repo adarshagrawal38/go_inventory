@@ -13,8 +13,7 @@ import (
 )
 
 // NewGetInventoryParams creates a new GetInventoryParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewGetInventoryParams() GetInventoryParams {
 
 	return GetInventoryParams{}

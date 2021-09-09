@@ -15,8 +15,7 @@ import (
 )
 
 // NewDeleteInventoryItemIDParams creates a new DeleteInventoryItemIDParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewDeleteInventoryItemIDParams() DeleteInventoryItemIDParams {
 
 	return DeleteInventoryItemIDParams{}
@@ -51,6 +50,7 @@ func (o *DeleteInventoryItemIDParams) BindRequest(r *http.Request, route *middle
 	if err := o.bindItemID(rItemID, rhkItemID, route.Formats); err != nil {
 		res = append(res, err)
 	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
