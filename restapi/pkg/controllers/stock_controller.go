@@ -1,23 +1,37 @@
 package controllers
 
 import (
-	"fmt"
 	"inventory-management/models"
 	"inventory-management/restapi/operations/stock"
 	"inventory-management/restapi/pkg/database"
 )
 
+func CreateItem(params stock.PostInventoryParams) *models.Item {
+	var item *models.Item = params.Body
+	database.DB.Create(item)
 
-func CreateItem(params stock.PostInventoryParams) models.Item {
-	item := models.Item {
-		MRP: params.Price,
-		Description: "item",
-		ItemName: params.ItemName,
-		Quantity: 1,
-		SellingPrice: params.Price,
-	}
-	database.DB.Create(&item)
-	fmt.Println(item)
 	return item
+}
 
+func GetAllItems() models.Items {
+	items := models.Items{}
+	database.DB.Find(&items)
+
+	return items
+}
+
+func UdateAnItem(params stock.PatchInventoryParams) *models.Item {
+	var item *models.Item = params.Body
+	database.DB.Updates(item)
+
+	return item
+}
+
+func DeleteAnItem(params stock.DeleteInventoryItemIDParams) error {
+	item := models.Item{
+		ID: params.ItemID,
+	}
+	err := database.DB.Delete(&item)
+
+	return err.Error
 }

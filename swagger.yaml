@@ -1,4 +1,5 @@
 swagger: "2.0"
+
 info:
   version: 1.0.0
   title: Inventory Management
@@ -6,6 +7,7 @@ info:
   contact:
     name: AAA
     url: http://aaa.com
+
 tags:
   - name: "User"
     description: "Operations about user"
@@ -13,6 +15,7 @@ tags:
     description: "operations on stock items"
   - name: "Authorization"
     description: "check user credentials"
+
 paths:
   /user:
     post:
@@ -29,6 +32,7 @@ paths:
           description: User created
           schema:
             $ref: "#/definitions/Users"
+
     put:
       tags:
         - "User"
@@ -59,6 +63,7 @@ paths:
           description: get user details
           schema:
             $ref: "#/definitions/Users"
+
     delete:
       tags:
         - "User"
@@ -67,6 +72,7 @@ paths:
           description: user deleted
         404:
           description: internal server error
+
   /login:
     post:
       tags:
@@ -86,6 +92,7 @@ paths:
           description: login sucessful
         401:
           description: invalid credentials
+
   /inventory:
     get:
       tags:
@@ -96,39 +103,26 @@ paths:
           description: Fetched all records
           schema:
             $ref: "#/definitions/Items"
+
     post:
       summary: saves an item to inventory
       tags:
         - "Stock"
       parameters:
-        - name: itemName
-          in: query
-          type: string
-          required: true
-        - name: name
-          in: query
-          type: string
-          required: false
-        - name: price
-          in: query
-          type: number
-          required: true
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Item"
       responses:
         201:
           description: Item saved successfully
           schema:
             $ref: "#/definitions/Item"
-  /inventory/{itemId}:
-    parameters:
-      - type: integer
-        format: int64
-        name: itemId
-        in: path
-        required: true
-    put:
+    
+    patch:
       tags:
         - "Stock"
-      summary: update an item by item id
+      summary: update an item
       parameters:
         - name: body
           in: body
@@ -139,14 +133,25 @@ paths:
           description: Successfully updated the record
           schema:
             $ref: "#/definitions/Item"
+
+  /inventory/{itemId}:
+    parameters:
+      - type: integer
+        format: int64
+        name: itemId
+        in: path
+        required: true
+
     delete:
       tags:
         - "Stock"
+      summary: delete an item
       responses:
         200:
           description: Item deleted
         404:
           description: Item not found
+
   /inventory/search/{itemName}:
     parameters:
       - type: string
@@ -185,10 +190,12 @@ definitions:
       quantity:
         type: integer
         example: 6
+
   Items:
     type: array
     items:
       $ref: "#/definitions/Item"
+
   Users:
     type: object
     properties:

@@ -61,6 +61,9 @@ func NewInventoryAPI(spec *loads.Document) *InventoryAPI {
 		UserGetUserIDHandler: user.GetUserIDHandlerFunc(func(params user.GetUserIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.GetUserID has not yet been implemented")
 		}),
+		StockPatchInventoryHandler: stock.PatchInventoryHandlerFunc(func(params stock.PatchInventoryParams) middleware.Responder {
+			return middleware.NotImplemented("operation stock.PatchInventory has not yet been implemented")
+		}),
 		StockPostInventoryHandler: stock.PostInventoryHandlerFunc(func(params stock.PostInventoryParams) middleware.Responder {
 			return middleware.NotImplemented("operation stock.PostInventory has not yet been implemented")
 		}),
@@ -69,9 +72,6 @@ func NewInventoryAPI(spec *loads.Document) *InventoryAPI {
 		}),
 		UserPostUserHandler: user.PostUserHandlerFunc(func(params user.PostUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.PostUser has not yet been implemented")
-		}),
-		StockPutInventoryItemIDHandler: stock.PutInventoryItemIDHandlerFunc(func(params stock.PutInventoryItemIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation stock.PutInventoryItemID has not yet been implemented")
 		}),
 		UserPutUserHandler: user.PutUserHandlerFunc(func(params user.PutUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.PutUser has not yet been implemented")
@@ -122,14 +122,14 @@ type InventoryAPI struct {
 	StockGetInventorySearchItemNameHandler stock.GetInventorySearchItemNameHandler
 	// UserGetUserIDHandler sets the operation handler for the get user ID operation
 	UserGetUserIDHandler user.GetUserIDHandler
+	// StockPatchInventoryHandler sets the operation handler for the patch inventory operation
+	StockPatchInventoryHandler stock.PatchInventoryHandler
 	// StockPostInventoryHandler sets the operation handler for the post inventory operation
 	StockPostInventoryHandler stock.PostInventoryHandler
 	// AuthorizationPostLoginHandler sets the operation handler for the post login operation
 	AuthorizationPostLoginHandler authorization.PostLoginHandler
 	// UserPostUserHandler sets the operation handler for the post user operation
 	UserPostUserHandler user.PostUserHandler
-	// StockPutInventoryItemIDHandler sets the operation handler for the put inventory item ID operation
-	StockPutInventoryItemIDHandler stock.PutInventoryItemIDHandler
 	// UserPutUserHandler sets the operation handler for the put user operation
 	UserPutUserHandler user.PutUserHandler
 
@@ -224,6 +224,9 @@ func (o *InventoryAPI) Validate() error {
 	if o.UserGetUserIDHandler == nil {
 		unregistered = append(unregistered, "user.GetUserIDHandler")
 	}
+	if o.StockPatchInventoryHandler == nil {
+		unregistered = append(unregistered, "stock.PatchInventoryHandler")
+	}
 	if o.StockPostInventoryHandler == nil {
 		unregistered = append(unregistered, "stock.PostInventoryHandler")
 	}
@@ -232,9 +235,6 @@ func (o *InventoryAPI) Validate() error {
 	}
 	if o.UserPostUserHandler == nil {
 		unregistered = append(unregistered, "user.PostUserHandler")
-	}
-	if o.StockPutInventoryItemIDHandler == nil {
-		unregistered = append(unregistered, "stock.PutInventoryItemIDHandler")
 	}
 	if o.UserPutUserHandler == nil {
 		unregistered = append(unregistered, "user.PutUserHandler")
@@ -347,6 +347,10 @@ func (o *InventoryAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/user/{id}"] = user.NewGetUserID(o.context, o.UserGetUserIDHandler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/inventory"] = stock.NewPatchInventory(o.context, o.StockPatchInventoryHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
@@ -359,10 +363,6 @@ func (o *InventoryAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/user"] = user.NewPostUser(o.context, o.UserPostUserHandler)
-	if o.handlers["PUT"] == nil {
-		o.handlers["PUT"] = make(map[string]http.Handler)
-	}
-	o.handlers["PUT"]["/inventory/{itemId}"] = stock.NewPutInventoryItemID(o.context, o.StockPutInventoryItemIDHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}

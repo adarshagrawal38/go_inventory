@@ -8,7 +8,6 @@ import (
 	"inventory-management/restapi/pkg/database"
 )
 
-
 func CreateUser(params user.PostUserParams) *models.Users {
 
 	var users *models.Users = params.Body
@@ -17,8 +16,8 @@ func CreateUser(params user.PostUserParams) *models.Users {
 	return users
 }
 
-func DeleteUser(params user.DeleteUserIDParams) error{
-	user := models.Users {
+func DeleteUser(params user.DeleteUserIDParams) error {
+	user := models.Users{
 		ID: params.ID,
 	}
 	err := database.DB.Delete(&user)
@@ -27,8 +26,8 @@ func DeleteUser(params user.DeleteUserIDParams) error{
 	return err.Error
 }
 
-func FindUserById(params user.GetUserIDParams) models.Users{
-	user := models.Users {
+func FindUserById(params user.GetUserIDParams) models.Users {
+	user := models.Users{
 		ID: params.ID,
 	}
 	database.DB.Find(&user)

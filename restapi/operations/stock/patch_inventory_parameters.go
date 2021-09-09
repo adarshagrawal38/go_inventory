@@ -17,19 +17,19 @@ import (
 	"inventory-management/models"
 )
 
-// NewPostInventoryParams creates a new PostInventoryParams object
+// NewPatchInventoryParams creates a new PatchInventoryParams object
 //
 // There are no default values defined in the spec.
-func NewPostInventoryParams() PostInventoryParams {
+func NewPatchInventoryParams() PatchInventoryParams {
 
-	return PostInventoryParams{}
+	return PatchInventoryParams{}
 }
 
-// PostInventoryParams contains all the bound params for the post inventory operation
+// PatchInventoryParams contains all the bound params for the patch inventory operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters PostInventory
-type PostInventoryParams struct {
+// swagger:parameters PatchInventory
+type PatchInventoryParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -43,8 +43,8 @@ type PostInventoryParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewPostInventoryParams() beforehand.
-func (o *PostInventoryParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewPatchInventoryParams() beforehand.
+func (o *PatchInventoryParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r

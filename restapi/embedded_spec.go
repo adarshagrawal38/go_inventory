@@ -51,26 +51,39 @@ func init() {
         "summary": "saves an item to inventory",
         "parameters": [
           {
-            "type": "string",
-            "name": "itemName",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "string",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "name": "price",
-            "in": "query",
-            "required": true
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
           }
         ],
         "responses": {
           "201": {
             "description": "Item saved successfully",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Stock"
+        ],
+        "summary": "update an item",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the record",
             "schema": {
               "$ref": "#/definitions/Item"
             }
@@ -103,33 +116,11 @@ func init() {
       ]
     },
     "/inventory/{itemId}": {
-      "put": {
-        "tags": [
-          "Stock"
-        ],
-        "summary": "update an item by item id",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Item"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully updated the record",
-            "schema": {
-              "$ref": "#/definitions/Item"
-            }
-          }
-        }
-      },
       "delete": {
         "tags": [
           "Stock"
         ],
+        "summary": "delete an item",
         "responses": {
           "200": {
             "description": "Item deleted"
@@ -372,26 +363,39 @@ func init() {
         "summary": "saves an item to inventory",
         "parameters": [
           {
-            "type": "string",
-            "name": "itemName",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "string",
-            "name": "name",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "name": "price",
-            "in": "query",
-            "required": true
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
           }
         ],
         "responses": {
           "201": {
             "description": "Item saved successfully",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Stock"
+        ],
+        "summary": "update an item",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the record",
             "schema": {
               "$ref": "#/definitions/Item"
             }
@@ -424,33 +428,11 @@ func init() {
       ]
     },
     "/inventory/{itemId}": {
-      "put": {
-        "tags": [
-          "Stock"
-        ],
-        "summary": "update an item by item id",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Item"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully updated the record",
-            "schema": {
-              "$ref": "#/definitions/Item"
-            }
-          }
-        }
-      },
       "delete": {
         "tags": [
           "Stock"
         ],
+        "summary": "delete an item",
         "responses": {
           "200": {
             "description": "Item deleted"

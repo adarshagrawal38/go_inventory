@@ -41,19 +41,21 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
-	
+
 	database.Connect()
-	
+
+	// User API to Add, Delete, Get and Update
 	api.UserPostUserHandler = user.PostUserHandlerFunc(func(params user.PostUserParams) middleware.Responder {
 		newUser := controllers.CreateUser(params)
-		
+
 		return user.NewPostUserCreated().WithPayload(newUser)
 	})
+
 	api.UserDeleteUserIDHandler = user.DeleteUserIDHandlerFunc(func(params user.DeleteUserIDParams) middleware.Responder {
 		err := controllers.DeleteUser(params)
 		if err != nil {
 			return user.NewDeleteUserIDNotFound()
-		}else {
+		} else {
 			return user.NewDeleteUserIDOK()
 		}
 	})
@@ -62,27 +64,35 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 		userData := controllers.FindUserById(params)
 		return user.NewGetUserIDOK().WithPayload(&userData)
 	})
+
 	api.UserPutUserHandler = user.PutUserHandlerFunc(func(params user.PutUserParams) middleware.Responder {
 		updatedUser := controllers.UpdateUser(params)
 		return user.NewPutUserCreated().WithPayload(updatedUser)
 	})
 
-	// STOCK
+	// Stock API to Create, Get, Patch, Delete, Search an Item
 	api.StockPostInventoryHandler = stock.PostInventoryHandlerFunc(func(params stock.PostInventoryParams) middleware.Responder {
 		postItem := controllers.CreateItem(params)
-		return stock.NewPostInventoryCreated().WithPayload(&postItem)
+		return stock.NewPostInventoryCreated().WithPayload(postItem)
 	})
 
 	api.StockGetInventoryHandler = stock.GetInventoryHandlerFunc(func(params stock.GetInventoryParams) middleware.Responder {
-		return middleware.NotImplemented("operation stock.GetInventory has not yet been implemented")
+		allItems := controllers.GetAllItems()
+		return stock.NewGetInventoryOK().WithPayload(allItems)
 	})
 
-	api.StockPutInventoryItemIDHandler = stock.PutInventoryItemIDHandlerFunc(func(params stock.PutInventoryItemIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation stock.PutInventoryItemID has not yet been implemented")
+	api.StockPatchInventoryHandler = stock.PatchInventoryHandlerFunc(func(params stock.PatchInventoryParams) middleware.Responder {
+		modifiedItem := controllers.UdateAnItem(params)
+		return stock.NewPatchInventoryOK().WithPayload(modifiedItem)
 	})
 
 	api.StockDeleteInventoryItemIDHandler = stock.DeleteInventoryItemIDHandlerFunc(func(params stock.DeleteInventoryItemIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation stock.DeleteInventoryItemID has not yet been implemented")
+		err := controllers.DeleteAnItem(params)
+		if err != nil {
+			return stock.NewDeleteInventoryItemIDNotFound()
+		} else {
+			return stock.NewDeleteInventoryItemIDOK()
+		}
 	})
 
 	api.StockGetInventorySearchItemNameHandler = stock.GetInventorySearchItemNameHandlerFunc(func(params stock.GetInventorySearchItemNameParams) middleware.Responder {
@@ -90,13 +100,12 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	})
 
 	//Auth
-	
+
 	api.AuthorizationPostLoginHandler = authorization.PostLoginHandlerFunc(func(params authorization.PostLoginParams) middleware.Responder {
 		//Login not implemented
 		controllers.LogInUser(params)
 		return middleware.NotImplemented("operation authorization.PostLogin has not yet been implemented")
 	})
-	
 
 	api.PreServerShutdown = func() {}
 
@@ -127,12 +136,12 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // So this is a good place to plug in a panic handling middleware, logging and metrics.
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	// create a new serve mux for handling additional urls
-    mux := http.NewServeMux()
+	mux := http.NewServeMux()
 
-    // forward to go-swagger by default
-    mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        handler.ServeHTTP(w, r)
-    })
+	// forward to go-swagger by default
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		handler.ServeHTTP(w, r)
+	})
 
 	return handler
 }

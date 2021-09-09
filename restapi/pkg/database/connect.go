@@ -10,7 +10,7 @@ import (
 var DB *gorm.DB
 func Connect() {
 	DB_USERNAME := "root"
-	DB_PASSWORD := ""
+	DB_PASSWORD := "12345"
 	DATABASE := "inventory"
 
 	conncetion := fmt.Sprintf("%s:%s@/%s", DB_USERNAME, DB_PASSWORD, DATABASE)

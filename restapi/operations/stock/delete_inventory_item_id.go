@@ -31,7 +31,7 @@ func NewDeleteInventoryItemID(ctx *middleware.Context, handler DeleteInventoryIt
 
 /* DeleteInventoryItemID swagger:route DELETE /inventory/{itemId} Stock deleteInventoryItemId
 
-DeleteInventoryItemID delete inventory item ID API
+delete an item
 
 */
 type DeleteInventoryItemID struct {
