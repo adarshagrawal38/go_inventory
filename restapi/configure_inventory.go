@@ -108,9 +108,14 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	//Auth
 
 	api.AuthorizationPostLoginHandler = authorization.PostLoginHandlerFunc(func(params authorization.PostLoginParams) middleware.Responder {
-		//Login not implemented
-		controllers.LogInUser(params)
-		return middleware.NotImplemented("operation authorization.PostLogin has not yet been implemented")
+
+		val := controllers.LogInUser(params)
+		if val == 1 {
+			return authorization.NewPostLoginOK().WithPayload(&authorization.PostLoginOKBody{"No Token", "Login Succeeded"})
+		} else {
+			return authorization.NewPostLoginOK().WithPayload(&authorization.PostLoginOKBody{"No Token", "Login Failed"})
+		}
+		//	return middleware.NotImplemented("operation authorization.PostLogin has not yet been implemented")
 	})
 
 	api.PreServerShutdown = func() {}
