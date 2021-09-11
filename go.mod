@@ -10,10 +10,10 @@ require (
 	github.com/go-openapi/strfmt v0.20.2
 	github.com/go-openapi/swag v0.19.15
 	github.com/go-openapi/validate v0.20.2
-	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/jessevdk/go-flags v1.5.0
-	golang.org/x/net v0.0.0-20210825183410-e898025ed96a
-	gorm.io/gorm v1.21.14
+	golang.org/x/net v0.0.0-20210908191846-a5e095526f91
+	gorm.io/driver/mysql v1.1.2
+	gorm.io/gorm v1.21.15
 )
 
 require (
@@ -24,7 +24,10 @@ require (
 	github.com/go-openapi/analysis v0.20.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.19.5 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.2 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
@@ -33,6 +36,4 @@ require (
 	golang.org/x/sys v0.0.0-20210423082822-04245dca01da // indirect
 	golang.org/x/text v0.3.6 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gorm.io/driver/mysql v1.1.2
-	
 )

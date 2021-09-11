@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  database:
+    image: "mariadb"
+    ports:
+      - "3306:3306"
+    networks:
+      - poa
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+  apis:
+    build: .
+    ports:
+      - "5000:5000"
+    networks: 
+      - poa
+    depends_on: 
+      - database
+
+networks:
+  poa:
+    name: network1
+    driver: bridge
