@@ -4,6 +4,7 @@ package restapi
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net/http"
 
 	"github.com/go-openapi/errors"
@@ -72,12 +73,13 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 
 	// Stock API to Create, Get, Patch, Delete, Search an Item
 	api.StockPostInventoryHandler = stock.PostInventoryHandlerFunc(func(params stock.PostInventoryParams) middleware.Responder {
-		postItem := controllers.CreateItem(params)
+		fmt.Println("Item post")
+		postItem := controllers.CreateItem(params.Body, controllers.NewFireQuery())
 		return stock.NewPostInventoryCreated().WithPayload(postItem)
 	})
 
 	api.StockGetInventoryHandler = stock.GetInventoryHandlerFunc(func(params stock.GetInventoryParams) middleware.Responder {
-		allItems := controllers.GetAllItems()
+		allItems := controllers.GetAllItems(controllers.NewFireQuery())
 		return stock.NewGetInventoryOK().WithPayload(allItems)
 	})
 
@@ -96,10 +98,10 @@ func configureAPI(api *operations.InventoryAPI) http.Handler {
 	})
 
 	api.StockGetInventorySearchItemNameHandler = stock.GetInventorySearchItemNameHandlerFunc(func(params stock.GetInventorySearchItemNameParams) middleware.Responder {
-		
+
 		data, err := controllers.SearchItem(params)
 		if err != nil {
-			return 	middleware.NotImplemented(err.Error())
+			return middleware.NotImplemented(err.Error())
 		}
 
 		return stock.NewGetInventorySearchItemNameOK().WithPayload(*data)

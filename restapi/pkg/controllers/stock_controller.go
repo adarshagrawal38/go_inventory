@@ -7,17 +7,29 @@ import (
 	"inventory-management/restapi/pkg/database"
 )
 
-func CreateItem(params stock.PostInventoryParams) *models.Item {
-	var item *models.Item = params.Body
-	database.DB.Create(item)
+type DatabaseInteraction interface {
+	createItemInDB(*models.Item)
+	findAllItemsInDB(*models.Items)
+}
+type fireQuery struct{}
 
+func (f fireQuery) createItemInDB(item *models.Item) {
+	database.CreateItemInDB(item)
+}
+func (f fireQuery) findAllItemsInDB(items *models.Items) {
+	database.FindAllItems(items)
+}
+func NewFireQuery() DatabaseInteraction {
+	return fireQuery{}
+}
+func CreateItem(item *models.Item, query DatabaseInteraction) *models.Item {
+	query.createItemInDB(item)
 	return item
 }
 
-func GetAllItems() models.Items {
+func GetAllItems(query DatabaseInteraction) models.Items {
 	items := models.Items{}
-	database.DB.Find(&items)
-
+	query.findAllItemsInDB(&items)
 	return items
 }
 
@@ -37,7 +49,7 @@ func DeleteAnItem(params stock.DeleteInventoryItemIDParams) error {
 	return err.Error
 }
 
-func SearchItem(params stock.GetInventorySearchItemNameParams)  (*models.Items, error) {
+func SearchItem(params stock.GetInventorySearchItemNameParams) (*models.Items, error) {
 	var items models.Items
 	err := database.DB.Where("item_name LIKE ?", "%"+params.ItemName+"%").Find(&items)
 	fmt.Println(items)
