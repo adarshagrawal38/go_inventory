@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-deploy
+  labels:
+    app: inventory-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory-management
+  template:
+    metadata:
+      labels:
+        app: inventory-management
+    spec:
+      containers:
+      - name: inventory-management
+        image: akshaysarda/inventory-management:1.0
+        ports:
+        - containerPort: 38465
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: inventory-service
+spec:
+  selector:
+    app: inventory-management
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 38465
+    targetPort: 38465
+    nodePort: 30001
